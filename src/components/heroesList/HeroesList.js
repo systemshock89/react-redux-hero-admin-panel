@@ -14,6 +14,10 @@ import './heroesList.scss';
 // Усложненная задача:
 // Удаление идет и с json файла при помощи метода DELETE
 
+const baseUrl = process.env.NODE_ENV === 'development'
+? 'http://localhost:3001'
+: 'https://my-json-server.typicode.com/systemshock89/react-redux-hero-admin-panel';
+
 const HeroesList = () => {
     const {filteredHeroes, heroesLoadingStatus} = useSelector(state => state);
     const dispatch = useDispatch();
@@ -21,7 +25,7 @@ const HeroesList = () => {
 
     useEffect(() => {
         dispatch(heroesFetching());
-        request("http://localhost:3001/heroes")
+        request(`${baseUrl}/heroes`)
             .then(data => dispatch(heroesFetched(data)))
             .catch(() => dispatch(heroesFetchingError()))
 
@@ -33,7 +37,7 @@ const HeroesList = () => {
     // Отслеживайте цепочку действий actions => reducers
     const onDelete = useCallback((id) => {
         // Удаление персонажа по его id
-        request(`http://localhost:3001/heroes/${id}`, "DELETE")
+        request(`${baseUrl}/heroes/${id}`, "DELETE")
             .then(data => console.log(data, 'Deleted')) // в дате будет удаленный персонаж
             .then(dispatch(heroDeleted(id))) // только когда перс был удален с сервера диспэтчит действие
             .catch(err => console.log(err));

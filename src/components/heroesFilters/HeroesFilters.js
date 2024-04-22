@@ -22,8 +22,13 @@ const HeroesFilters = () => {
 
     // Запрос на сервер для получения фильтров и последовательной смены состояния
     useEffect(() => {
+
+        const baseUrl = process.env.NODE_ENV === 'development'
+                        ? 'http://localhost:3001'
+                        : 'https://my-json-server.typicode.com/systemshock89/react-redux-hero-admin-panel';
+
         dispatch(filtersFetching());
-        request("http://localhost:3001/filters")
+        request(`${baseUrl}/filters`)
             .then(data => dispatch(filtersFetched(data)))
             .catch(() => dispatch(filtersFetchingError()))
 

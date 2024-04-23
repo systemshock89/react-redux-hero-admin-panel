@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { CSSTransition, TransitionGroup} from 'react-transition-group';
 import { createSelector } from 'reselect'; // для мемоизации разных значений, кот-е лежат в разных кусочках state
 
-import { heroesFetching, heroesFetched, heroesFetchingError, heroDeleted } from '../../actions';
+import { fetchHeroes, heroDeleted } from '../../actions';
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
 
@@ -48,10 +48,12 @@ const HeroesList = () => {
     const {request} = useHttp();
 
     useEffect(() => {
-        dispatch(heroesFetching());
-        request(`${baseUrl}/heroes`)
-            .then(data => dispatch(heroesFetched(data)))
-            .catch(() => dispatch(heroesFetchingError()))
+        dispatch(fetchHeroes(request));
+
+        // dispatch(heroesFetching());
+        // request(`${baseUrl}/heroes`)
+        //     .then(data => dispatch(heroesFetched(data)))
+        //     .catch(() => dispatch(heroesFetchingError()))
 
         // eslint-disable-next-line
     }, []);

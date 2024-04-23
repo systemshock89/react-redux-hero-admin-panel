@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 
-import { filtersFetching, filtersFetched, filtersFetchingError, activeFilterChanged } from '../../actions';
+import { fetchFilters, activeFilterChanged } from '../../actions';
 import Spinner from '../spinner/Spinner';
 
 // Задача для этого компонента:
@@ -22,16 +22,7 @@ const HeroesFilters = () => {
 
     // Запрос на сервер для получения фильтров и последовательной смены состояния
     useEffect(() => {
-
-        const baseUrl = process.env.NODE_ENV === 'development'
-                        ? 'http://localhost:3001'
-                        : 'https://my-json-server.typicode.com/systemshock89/react-redux-hero-admin-panel';
-
-        dispatch(filtersFetching());
-        request(`${baseUrl}/filters`)
-            .then(data => dispatch(filtersFetched(data)))
-            .catch(() => dispatch(filtersFetchingError()))
-
+        dispatch(fetchFilters(request));
         // eslint-disable-next-line
     }, []);
 

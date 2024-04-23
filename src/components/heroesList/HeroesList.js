@@ -2,10 +2,9 @@ import {useHttp} from '../../hooks/http.hook';
 import { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CSSTransition, TransitionGroup} from 'react-transition-group';
-import { createSelector } from 'reselect'; // для мемоизации разных значений, кот-е лежат в разных кусочках state
+import { createSelector } from '@reduxjs/toolkit'; // для мемоизации разных значений, кот-е лежат в разных кусочках state
 
-import { fetchHeroes } from '../../actions';
-import { heroDeleted } from './heroesSlice';
+import { heroDeleted, fetchHeroes } from './heroesSlice';
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
 
@@ -49,7 +48,9 @@ const HeroesList = () => {
     const {request} = useHttp();
 
     useEffect(() => {
-        dispatch(fetchHeroes(request));
+        dispatch(fetchHeroes()); // request уже не передаем. он есть внутри среза
+
+        // dispatch(fetchHeroes(request));
 
         // dispatch(heroesFetching());
         // request(`${baseUrl}/heroes`)

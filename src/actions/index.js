@@ -1,3 +1,5 @@
+// после добавления комплексных (с помощью createAsyncThunk) и простых action creatos в срез эти экшены не используются
+
 // import { createAction } from "@reduxjs/toolkit";
 import {heroesFetching, heroesFetched, heroesFetchingError} from '../components/heroesList/heroesSlice';
 import {filtersFetching, filtersFetched, filtersFetchingError} from '../components/heroesFilters/filtersSlice';

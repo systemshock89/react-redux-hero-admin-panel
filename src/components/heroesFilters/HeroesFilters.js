@@ -2,8 +2,9 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
+import store from '../../store';
 
-import { filtersChanged, fetchFilters } from './filtersSlice';
+import { filtersChanged, fetchFilters, selectAll } from './filtersSlice';
 import Spinner from '../spinner/Spinner';
 
 // Задача для этого компонента:
@@ -15,9 +16,9 @@ import Spinner from '../spinner/Spinner';
 
 const HeroesFilters = () => {
 
-    const {filters, filtersLoadingStatus, activeFilter} = useSelector(state => state.filters);
+    const {filtersLoadingStatus, activeFilter} = useSelector(state => state.filters);
+    const filters = selectAll(store.getState()); // если передать selectAll без аргументов, то будет ошибка, тк selectAll не знает о глобальном state
     const dispatch = useDispatch();
-
 
     // Запрос на сервер для получения фильтров и последовательной смены состояния
     useEffect(() => {

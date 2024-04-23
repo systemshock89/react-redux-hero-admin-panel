@@ -1,10 +1,16 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, createEntityAdapter, createSelector } from "@reduxjs/toolkit";
 import {useHttp} from '../../hooks/http.hook';
 
-const initialState = {
-    heroes: [], // список героев, полученных с сервера
+const heroesAdapter =  createEntityAdapter();
+
+// const initialState = {
+//     heroes: [], // список героев, полученных с сервера
+//     heroesLoadingStatus: 'idle', // idle - бездействие
+// }
+
+const initialState = heroesAdapter.getInitialState({
     heroesLoadingStatus: 'idle', // idle - бездействие
-}
+});
 
 const baseUrl = process.env.NODE_ENV === 'development'
 ? 'http://localhost:3001'
@@ -32,13 +38,16 @@ const heroesSlice = createSlice({
     initialState,
     reducers: {
         heroCreated: (state, action) => {
-            state.heroes.push(action.payload);
+            heroesAdapter.addOne(state, action.payload);
+
+            // state.heroes.push(action.payload);
             // этот код визуально не подходит под понятие иммутабельности
             // но биб-ка immer.js, встроенная в redux toolkit будет соблюдать иммутабельность
             // Эта ф-я не должна ничего возвращать! return тут писать нельзя! иначе immer.js работать не будет)
         },
         heroDeleted: (state, action) => {
-            state.heroes.filter(item => item.id !== action.payload);
+            heroesAdapter.removeOne(state, action.payload);
+            // state.heroes = state.heroes.filter(item => item.id !== action.payload);
         },
 
     },
@@ -50,7 +59,12 @@ const heroesSlice = createSlice({
             .addCase(fetchHeroes.pending, state => {state.heroesLoadingStatus = 'loading'}) // какое действие будет выполнено, когда отправляем запрос на сервер
             .addCase(fetchHeroes.fulfilled, (state, action) => {
                 state.heroesLoadingStatus = 'idle';
-                state.heroes = action.payload;
+                heroesAdapter.setAll(state, action.payload) // во время того как запрос выполнился, получили данные, воспользуемся командой setAll,
+                // кот-я возьмет кусочек state с героями и добавит в них все что пришло от сервера
+                // эта команда возьмет то что было изначально и ЗАМЕНИТ тем что пришло от сервера
+                // (если нужно добавить новые значения и не стирать старые - то команда setMany)
+
+                // state.heroes = action.payload;
             }) // какое действие будет выполнено, когда запрос выполнился успешно
             .addCase(fetchHeroes.rejected, state => {
                 state.heroesLoadingStatus = 'error';
@@ -60,6 +74,21 @@ const heroesSlice = createSlice({
 });
 
 const {actions, reducer} = heroesSlice;
+
+const {selectAll} = heroesAdapter.getSelectors(state => state.heroes); // селекторы привязаны к героям
+
+export const filteredHeroesSelector = createSelector(
+    (state) => state.filters.activeFilter,
+    selectAll, // в эту ф-ю state передасться автоматически
+    // (state) => state.heroes.heroes,
+    (filter, heroes) => {
+        if(filter === 'all') {
+            return heroes;
+        } else {
+            return heroes.filter(item => item.element === filter)
+        }
+    }
+);
 
 export default reducer;
 export const {

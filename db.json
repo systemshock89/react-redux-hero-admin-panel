@@ -21,34 +21,34 @@
   ],
   "filters": [
     {
+      "id": "all",
       "name": "all",
       "label": "Все",
-      "className": "btn-outline-dark",
-      "id": "09a7"
+      "className": "btn-outline-dark"
     },
     {
+      "id": "fire",
       "name": "fire",
       "label": "Огонь",
-      "className": "btn-danger",
-      "id": "60bf"
+      "className": "btn-danger"
     },
     {
+      "id": "water",
       "name": "water",
       "label": "Вода",
-      "className": "btn-primary",
-      "id": "13fc"
+      "className": "btn-primary"
     },
     {
+      "id": "wind",
       "name": "wind",
       "label": "Ветер",
-      "className": "btn-success",
-      "id": "5504"
+      "className": "btn-success"
     },
     {
+      "id": "earth",
       "name": "earth",
       "label": "Земля",
-      "className": "btn-secondary",
-      "id": "ca65"
+      "className": "btn-secondary"
     }
   ]
 }

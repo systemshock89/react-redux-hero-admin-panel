@@ -1,3 +1,5 @@
+import { createAction } from "@reduxjs/toolkit";
+
 const baseUrl = process.env.NODE_ENV === 'development'
 ? 'http://localhost:3001'
 : 'https://my-json-server.typicode.com/systemshock89/react-redux-hero-admin-panel';
@@ -11,18 +13,25 @@ export const fetchHeroes = (request) => (dispatch) => {
         .catch(() => dispatch(heroesFetchingError()))
 }
 
-export const heroesFetching = () => {
-    return {
-        type: 'HEROES_FETCHING'
-    }
-}
+// export const heroesFetching = () => {
+//     return {
+//         type: 'HEROES_FETCHING'
+//     }
+// }
 
-export const heroesFetched = (heroes) => {
-    return {
-        type: 'HEROES_FETCHED',
-        payload: heroes
-    }
-}
+export const heroesFetching = createAction('HEROES_FETCHING');
+
+// export const heroesFetched = (heroes) => {
+//     return {
+//         type: 'HEROES_FETCHED',
+//         payload: heroes
+//     }
+// }
+
+// аргумент, кот-й приходит в createAction (в нашем случае heroes) автоматически переходит в поле с названием payload
+// но если добавить доп-е аргументы в вызов action creator'а, то они не уже будут передаваться
+// например, в .then(data => dispatch(heroesFetched(data, 'test'))) строка test не передасться
+export const heroesFetched = createAction('HEROES_FETCHED');
 
 export const heroesFetchingError = () => {
     return {

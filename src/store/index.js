@@ -1,7 +1,8 @@
 // import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
 import { configureStore } from '@reduxjs/toolkit';
-import heroes from '../reducers/heroes';
-import filters from '../reducers/filters';
+import heroes from '../components/heroesList/heroesSlice'; // slice
+// import heroes from '../reducers/heroes';
+import filters from '../components/heroesFilters/filtersSlice';
 
 // ф-я Middleware возвращает новый dispatch, кот-й что-то делает по-другому
 // в store тут только две ф-и из него: dispatch и getState 

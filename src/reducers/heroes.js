@@ -1,3 +1,5 @@
+// после создания heroesSlice этот файл не нужен!
+
 import { createReducer } from "@reduxjs/toolkit";
 
 import {

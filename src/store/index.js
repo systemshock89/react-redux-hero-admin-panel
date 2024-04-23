@@ -1,5 +1,5 @@
-import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
-import {thunk} from 'redux-thunk';
+// import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
+import { configureStore } from '@reduxjs/toolkit';
 import heroes from '../reducers/heroes';
 import filters from '../reducers/filters';
 
@@ -37,14 +37,25 @@ const enhancer = (createStore) => (...args) => {
     return store;
 }
 
-const store = createStore(combineReducers({heroes, filters}), 
-                        compose(applyMiddleware(thunk, stringMiddleware), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+// более простая и понятная запись благодаря redux toolkit
+const store = configureStore({
+    reducer: {heroes, filters},
+    middleware: getDefaultMiddleware => getDefaultMiddleware().concat(stringMiddleware), // в redux toolkit по умолчанию уже есть thunk. 
+    // она включена в getDefaultMiddleware. А свой Middleware нужно подключить следующим
+    // middleware: [thunk, stringMiddleware],
+    devTools: process.env.NODE_ENV !== 'production',
+    // preloadedState // необязательный пар-р. задачет начальное знач-е хранилища
+    // enhancers // принимает массив
+})
+
+// const store = createStore(combineReducers({heroes, filters}), 
+//                         compose(applyMiddleware(thunk, stringMiddleware), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
                         
-                        //  compose(
-                        //     enhancer,
-                        //     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-                        //  )
-                        );
+//                         //  compose(
+//                         //     enhancer,
+//                         //     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+//                         //  )
+//                         );
 
 // const store = createStore(combineReducers({heroes, filters}),
 //     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());

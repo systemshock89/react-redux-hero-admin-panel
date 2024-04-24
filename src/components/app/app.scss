@@ -1,3 +1,9 @@
+@use "sass:math";
+
+@function percentage($partialValue, $totalValue) {
+    @return math.percentage(math.div($partialValue, $totalValue));
+}
+
 .app {
     height: 100vh;
     overflow-y: scroll;
@@ -6,11 +12,17 @@
 
 .content {
     display: grid;
-    grid-template-columns: 560px 440px;
-    max-width: 1040px;
+    grid-template-columns: percentage(560px, 1040px) 1fr;
+    @media only screen and (max-width: 991px) {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }  
+    // grid-template-columns: 560px 440px;
+    gap: 40px;
+    max-width: 100%;
+    width: 1040px;
     margin: 0 auto;
     padding-top: 50px;
-    &__interactive {
-        padding-left: 40px;
-    }
+    padding-left: 15px;
+    padding-right: 15px;
 }

@@ -7,6 +7,8 @@ import store from '../../store';
 import { filtersChanged, fetchFilters, selectAll } from './filtersSlice';
 import Spinner from '../spinner/Spinner';
 
+import './heroesFilters.scss';
+
 // Задача для этого компонента:
 // Фильтры должны формироваться на основании загруженных данных
 // Фильтры должны отображать только нужных героев при выборе
@@ -60,7 +62,7 @@ const HeroesFilters = () => {
         <div className="card shadow-lg mt-4">
             <div className="card-body">
                 <p className="card-text">Отфильтруйте героев по элементам</p>
-                <div className="btn-group">
+                <div className="btn-group card-group">
                     {elements}
                 </div>
             </div>

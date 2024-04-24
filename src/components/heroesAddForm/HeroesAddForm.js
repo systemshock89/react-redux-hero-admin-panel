@@ -13,7 +13,7 @@
 import {useHttp} from '../../hooks/http.hook';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { v4 as uuidv4 } from 'uuid';
+import { nanoid } from '@reduxjs/toolkit';
 import store from '../../store';
 
 import { selectAll } from '../heroesFilters/filtersSlice';
@@ -36,7 +36,7 @@ const HeroesAddForm = () => {
         // хотел показать вам чуть нагляднее
         // Генерация id через библиотеку
         const newHero = {
-            id: uuidv4(),
+            id: nanoid(),
             name: heroName,
             description: heroDescr,
             element: heroElement

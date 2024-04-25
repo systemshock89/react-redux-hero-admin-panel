@@ -1,5 +1,5 @@
 <h1>React Redux Hero admin panel</h1>
-<p>Hero admin panel with functions show, add, delete and filter list of heroes in DB.</p>
+<p>Hero admin panel with functions show, add, delete and filter list of heroes in DB (REST API).</p>
 <p><a href="https://systemshock89.github.io/react-redux-hero-admin-panel/">Demo</a></p>
 
 <h2>Used technologies</h2>

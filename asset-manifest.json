@@ -1,24 +1,14 @@
 {
   "files": {
-    "main.css": "/react-redux-hero-admin-panel/static/css/main.6f4b3869.chunk.css",
-    "main.js": "/react-redux-hero-admin-panel/static/js/main.4509c8e2.chunk.js",
-    "main.js.map": "/react-redux-hero-admin-panel/static/js/main.4509c8e2.chunk.js.map",
-    "runtime-main.js": "/react-redux-hero-admin-panel/static/js/runtime-main.6cef2aac.js",
-    "runtime-main.js.map": "/react-redux-hero-admin-panel/static/js/runtime-main.6cef2aac.js.map",
-    "static/css/2.05cd118c.chunk.css": "/react-redux-hero-admin-panel/static/css/2.05cd118c.chunk.css",
-    "static/js/2.7ab02dfe.chunk.js": "/react-redux-hero-admin-panel/static/js/2.7ab02dfe.chunk.js",
-    "static/js/2.7ab02dfe.chunk.js.map": "/react-redux-hero-admin-panel/static/js/2.7ab02dfe.chunk.js.map",
+    "main.css": "/react-redux-hero-admin-panel/static/css/main.90da793c.css",
+    "main.js": "/react-redux-hero-admin-panel/static/js/main.6daff755.js",
+    "static/media/hero_bg.jpg": "/react-redux-hero-admin-panel/static/media/hero_bg.0540b794b0424b67d780.jpg",
     "index.html": "/react-redux-hero-admin-panel/index.html",
-    "static/css/2.05cd118c.chunk.css.map": "/react-redux-hero-admin-panel/static/css/2.05cd118c.chunk.css.map",
-    "static/css/main.6f4b3869.chunk.css.map": "/react-redux-hero-admin-panel/static/css/main.6f4b3869.chunk.css.map",
-    "static/js/2.7ab02dfe.chunk.js.LICENSE.txt": "/react-redux-hero-admin-panel/static/js/2.7ab02dfe.chunk.js.LICENSE.txt",
-    "static/media/app.scss": "/react-redux-hero-admin-panel/static/media/hero_bg.0540b794.jpg"
+    "main.90da793c.css.map": "/react-redux-hero-admin-panel/static/css/main.90da793c.css.map",
+    "main.6daff755.js.map": "/react-redux-hero-admin-panel/static/js/main.6daff755.js.map"
   },
   "entrypoints": [
-    "static/js/runtime-main.6cef2aac.js",
-    "static/css/2.05cd118c.chunk.css",
-    "static/js/2.7ab02dfe.chunk.js",
-    "static/css/main.6f4b3869.chunk.css",
-    "static/js/main.4509c8e2.chunk.js"
+    "static/css/main.90da793c.css",
+    "static/js/main.6daff755.js"
   ]
 }

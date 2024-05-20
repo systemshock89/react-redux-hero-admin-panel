@@ -8,7 +8,7 @@
     hooks: <code>useState</code>, <code>useEffect</code>, <code>useCallback</code><br>
     custom react hook: <code>useHttp</code>
     </li>
-    <li>React-redux (with <code>useDispatch</code>, <code>useSelector</code>)</li>
+    <li>React-redux (with <code>useDispatch</code>, <code>useSelector</code>, RTK Query <code>createApi, fetchBaseQuery</code>)</li>
     <li>Redux-toolkit (with <code>createReducer</code>, <code>configureStore</code>, <code>nanoid</code>)
     <li><b>Pattern when action creators and reducers combined in slice</b> (with <code>createSlice</code>, <code>createAsyncThunk</code>, <code>createEntityAdapter</code>)</li>
     </li>

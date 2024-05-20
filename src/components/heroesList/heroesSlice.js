@@ -1,3 +1,5 @@
+// Весь ф-ционал не нужен, если используется подход с RTK Query
+
 import { createSlice, createAsyncThunk, createEntityAdapter, createSelector } from "@reduxjs/toolkit";
 import {useHttp} from '../../hooks/http.hook';
 

@@ -17,7 +17,8 @@ import { nanoid } from '@reduxjs/toolkit';
 import store from '../../store';
 
 import { selectAll } from '../heroesFilters/filtersSlice';
-import { heroCreated } from '../heroesList/heroesSlice';
+// import { heroCreated } from '../heroesList/heroesSlice';
+import { useCreateHeroMutation } from '../../api/apiSlice';
 
 const HeroesAddForm = () => {
     // Состояния для контроля формы
@@ -25,10 +26,12 @@ const HeroesAddForm = () => {
     const [heroDescr, setHeroDescr] = useState('');
     const [heroElement, setHeroElement] = useState('');
 
+    const [createHero, {isLoading}] = useCreateHeroMutation();
+
     const {filtersLoadingStatus} = useSelector(state => state.filters);
     const filters = selectAll(store.getState());  // если передать selectAll без аргументов, то будет ошибка, тк selectAll не знает о глобальном state
-    const dispatch = useDispatch();
-    const {request} = useHttp();
+    // const dispatch = useDispatch();
+    // const {request} = useHttp();
 
     const onSubmitHandler = (e) => {
         e.preventDefault();
@@ -45,14 +48,17 @@ const HeroesAddForm = () => {
         // Отправляем данные на сервер в формате JSON
         // ТОЛЬКО если запрос успешен - отправляем персонажа в store
 
-        const baseUrl = process.env.NODE_ENV === 'development'
-        ? 'http://localhost:3001'
-        : 'https://my-json-server.typicode.com/systemshock89/react-redux-hero-admin-panel';
+        // const baseUrl = process.env.NODE_ENV === 'development'
+        // ? 'http://localhost:3001'
+        // : 'https://my-json-server.typicode.com/systemshock89/react-redux-hero-admin-panel';
 
-        request(`${baseUrl}/heroes`, "POST", JSON.stringify(newHero))
-            .then(res => console.log(res, 'Отправка успешна'))
-            .then(dispatch(heroCreated(newHero)))
-            .catch(err => console.log(err));
+        // request(`${baseUrl}/heroes`, "POST", JSON.stringify(newHero))
+        //     .then(res => console.log(res, 'Отправка успешна'))
+        //     .then(dispatch(heroCreated(newHero)))
+        //     .catch(err => console.log(err));
+
+        // с помощью RTK Query
+        createHero(newHero).unwrap();
 
         // Очищаем форму после отправки
         setHeroName('');

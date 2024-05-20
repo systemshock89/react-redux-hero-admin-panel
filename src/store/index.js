@@ -1,8 +1,9 @@
 // import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
 import { configureStore } from '@reduxjs/toolkit';
-import heroes from '../components/heroesList/heroesSlice'; // slice
+// import heroes from '../components/heroesList/heroesSlice'; // slice
 // import heroes from '../reducers/heroes';
 import filters from '../components/heroesFilters/filtersSlice';
+import { apiSlice } from '../api/apiSlice';
 
 // ф-я Middleware возвращает новый dispatch, кот-й что-то делает по-другому
 // в store тут только две ф-и из него: dispatch и getState 
@@ -40,8 +41,10 @@ const enhancer = (createStore) => (...args) => {
 
 // более простая и понятная запись благодаря redux toolkit
 const store = configureStore({
-    reducer: {heroes, filters},
-    middleware: getDefaultMiddleware => getDefaultMiddleware().concat(stringMiddleware), // в redux toolkit по умолчанию уже есть thunk. 
+    reducer: {/*heroes, */
+              filters, 
+              [apiSlice.reducerPath]: apiSlice.reducer},
+    middleware: getDefaultMiddleware => getDefaultMiddleware().concat(stringMiddleware, apiSlice.middleware), // в redux toolkit по умолчанию уже есть thunk. 
     // она включена в getDefaultMiddleware. А свой Middleware нужно подключить следующим
     // middleware: [thunk, stringMiddleware],
     devTools: process.env.NODE_ENV !== 'production',

@@ -1,10 +1,11 @@
-import {useHttp} from '../../hooks/http.hook';
-import { useEffect, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+// import {useHttp} from '../../hooks/http.hook';
+import { /*useEffect,*/ useCallback, useMemo } from 'react';
+import { /*useDispatch,*/ useSelector } from 'react-redux';
 import { CSSTransition, TransitionGroup} from 'react-transition-group';
 // import { createSelector } from '@reduxjs/toolkit'; // для мемоизации разных значений, кот-е лежат в разных кусочках state
 
-import { heroDeleted, fetchHeroes, filteredHeroesSelector } from './heroesSlice';
+// import { heroDeleted, fetchHeroes, /*filteredHeroesSelector*/ } from './heroesSlice';
+import { useGetHeroesQuery, useDeleteHeroMutation } from '../../api/apiSlice';
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
 
@@ -30,39 +31,71 @@ const HeroesList = () => {
     //     }
     // })
 
-    const filteredHeroes = useSelector(filteredHeroesSelector);
-    const heroesLoadingStatus = useSelector(state => state.heroes.heroesLoadingStatus);
-    const dispatch = useDispatch();
-    const {request} = useHttp();
+    const {
+        data: heroes = [], // если данные еще не получены, то пустой массив
 
-    useEffect(() => {
-        dispatch(fetchHeroes()); // request уже не передаем. он есть внутри среза
+        // состояния:
+        // isFetching, // индикатор повторной загрузки
+        isLoading, // индикатор загрузки
+        // isSucces,
+        isError,
+        // error
+    } = useGetHeroesQuery();
 
-        // dispatch(fetchHeroes(request));
+    const [deleteHero] = useDeleteHeroMutation();
 
-        // dispatch(heroesFetching());
-        // request(`${baseUrl}/heroes`)
-        //     .then(data => dispatch(heroesFetched(data)))
-        //     .catch(() => dispatch(heroesFetchingError()))
+    const activeFilter = useSelector(state => state.filters.activeFilter);
 
-        // eslint-disable-next-line
-    }, []);
+    const filteredHeroes =  useMemo(() => {
+        const filteredHeroes = heroes.slice(); // создаем копию оригинального массива, чтобы избежать мутации
+
+        if(activeFilter === 'all') {
+            return filteredHeroes;
+        } else {
+            return filteredHeroes.filter(item => item.element === activeFilter)
+        }
+    }, [heroes, activeFilter]);
+
+
+    // const filteredHeroes = useSelector(filteredHeroesSelector);
+    // const heroesLoadingStatus = useSelector(state => state.heroes.heroesLoadingStatus);
+    // const dispatch = useDispatch();
+    // const {request} = useHttp();
+
+    // useEffect(() => {
+    //     dispatch(fetchHeroes()); // request уже не передаем. он есть внутри среза
+
+    //     // dispatch(fetchHeroes(request));
+
+    //     // dispatch(heroesFetching());
+    //     // request(`${baseUrl}/heroes`)
+    //     //     .then(data => dispatch(heroesFetched(data)))
+    //     //     .catch(() => dispatch(heroesFetchingError()))
+
+    //     // eslint-disable-next-line
+    // }, []);
 
     // Функция берет id и по нему удаляет ненужного персонажа из store
     // ТОЛЬКО если запрос на удаление прошел успешно
     // Отслеживайте цепочку действий actions => reducers
     const onDelete = useCallback((id) => {
         // Удаление персонажа по его id
-        request(`${baseUrl}/heroes/${id}`, "DELETE")
-            .then(data => console.log(data, 'Deleted')) // в дате будет удаленный персонаж
-            .then(dispatch(heroDeleted(id))) // только когда перс был удален с сервера диспэтчит действие
-            .catch(err => console.log(err));
-        // eslint-disable-next-line  
-    }, [request]);
+        // request(`${baseUrl}/heroes/${id}`, "DELETE")
+        //     .then(data => console.log(data, 'Deleted')) // в дате будет удаленный персонаж
+        //     .then(dispatch(heroDeleted(id))) // только когда перс был удален с сервера диспэтчит действие
+        //     .catch(err => console.log(err));
 
-    if (heroesLoadingStatus === "loading") {
+        // с помощью RTK Query
+        deleteHero(id);
+        // eslint-disable-next-line  
+    }, []);
+    // }, [request]);
+
+    if (isLoading) {
+    // if (heroesLoadingStatus === "loading") {
         return <Spinner/>;
-    } else if (heroesLoadingStatus === "error") {
+    } else if (isError) {
+    // } else if (heroesLoadingStatus === "error") {
         return <h5 className="text-center mt-5">Ошибка загрузки</h5>
     }
 
